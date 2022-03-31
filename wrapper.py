@@ -1,6 +1,5 @@
 from seed import Gen, IncompatibleException, NoGenotypenException, NotResearchedException, Seed, Seedbank, mate
 
-print("h für hilfe")
 
 seedbank = Seedbank()
 seedbank.addSeed(Seed([Gen(['a', 'a'])]))
@@ -13,36 +12,39 @@ def parseInput(inp: str):
     try:
         if spl[0] in ["c", "clean"]:
             seedbank.clean()
+            return "Erfolgreich"
         elif spl[0] in ["e", "exit"]:
             exit()
         elif spl[0] in ["h", "help"]:
-            print("clean, exit, help, list, mate, research")
+            return "clean, exit, help, list, mate, research"
         elif spl[0] in ["l", "list"]:
-            print(seedbank)
+            return seedbank
         elif spl[0] in ["m", "mate"]:
             if len(spl) != 3:
-                print("Es müssen genau 2 Genotypen angegeben werden")
-                return
+                return "Es müssen genau 2 Genotypen angegeben werden"
             spl[1] = int(spl[1])
             spl[2] = int(spl[2])
             seedbank.addSeeds(mate(seedbank.retrieve(spl[1]), seedbank.retrieve(spl[2])))
+            return "Erfolgreich"
         elif spl[0] in ["r", "research"]:
             if len(spl) != 2:
-                print("Es muss genau 1 Genotyp angegeben werden, der erforscht werden sollte")
-                return
+                return "Es muss genau 1 Genotyp angegeben werden, der erforscht werden sollte"
             spl[1] = int(spl[1])
             seedbank.addSeed(seedbank.retrieve(spl[1]).research())
+            return "Erfolgreich"
         elif spl[0] in [" ", ""]:
-            pass
+            return "Nichts"
         else:
-            print(inp)
+            return f"Nicht erkannt: {inp}"
     except NoGenotypenException:
-        print("Nicht genügend Genotypen.")
+        return "Nicht genügend Genotypen."
     except NotResearchedException:
-        print("Ein Genotyp wurde noch nicht erforscht.")
+        return "Ein Genotyp wurde noch nicht erforscht."
     except IncompatibleException:
-        print("Diese Genotypen sind nicht kompatibel.")
+        return "Diese Genotypen sind nicht kompatibel."
 
 
-while True:
-    parseInput(input(" >"))
+if __name__ == "__main__":
+    print("h für hilfe")
+    while True:
+        print(parseInput(input(" >")))
