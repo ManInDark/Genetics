@@ -1,10 +1,11 @@
 from seed import Gen, IncompatibleException, NoGenotypenException, NotResearchedException, Seed, Seedbank, mate
 
-
 seedbank = Seedbank()
-seedbank.addSeed(Seed([Gen(['a', 'a'])]))
-seedbank.addSeed(Seed([Gen(['A', 'A'])]))
 
+def reload():
+    seedbank.seedbank.clear()
+    seedbank.addSeed(Seed([Gen(['a', 'a'])]))
+    seedbank.addSeed(Seed([Gen(['A', 'A'])]))
 
 def parseInput(inp: str):
     inp = inp.strip()
@@ -42,9 +43,11 @@ def parseInput(inp: str):
         return "Ein Genotyp wurde noch nicht erforscht."
     except IncompatibleException:
         return "Diese Genotypen sind nicht kompatibel."
-
+    except ValueError:
+        return "Fehlerhafte Eingabe"
 
 if __name__ == "__main__":
+    reload()
     print("h für hilfe")
     while True:
         print(parseInput(input(" >")))
