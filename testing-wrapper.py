@@ -26,6 +26,11 @@ class Testing(unittest.TestCase):
         self.assertEqual(seedbank.retrieve(2), Seed([Gen(['a', 'a'])], researched=True))
         self.assertEqual(seedbank.retrieve(3), Seed([Gen(['A', 'A'])], researched=True))
 
+    def test_research_all(self):
+        self.assertEqual(parseInput("ra"), "Erfolgreich")
+        self.assertEqual(seedbank.retrieve(2), Seed([Gen(['a', 'a'])], researched=True))
+        self.assertEqual(seedbank.retrieve(3), Seed([Gen(['A', 'A'])], researched=True))
+
     def test_mate(self):
         parseInput("r 0")
         parseInput("r 1")

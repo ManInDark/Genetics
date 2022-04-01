@@ -2,10 +2,12 @@ from seed import Gen, IncompatibleException, NoGenotypenException, NotResearched
 
 seedbank = Seedbank()
 
+
 def reload():
     seedbank.seedbank.clear()
     seedbank.addSeed(Seed([Gen(['a', 'a'])]))
     seedbank.addSeed(Seed([Gen(['A', 'A'])]))
+
 
 def parseInput(inp: str):
     inp = inp.strip()
@@ -33,6 +35,13 @@ def parseInput(inp: str):
             spl[1] = int(spl[1])
             seedbank.addSeed(seedbank.retrieve(spl[1]).research())
             return "Erfolgreich"
+        elif spl[0] in ["ra"]:
+            for i in range(len(seedbank.seedbank)):
+                if list(seedbank.seedbank.keys())[i].isResearched():
+                    continue
+                while list(seedbank.seedbank.values())[i] > 0:
+                    seedbank.addSeed(seedbank.retrieve(i).research())
+            return "Erfolgreich"
         elif spl[0] in [" ", ""]:
             return "Nichts"
         else:
@@ -45,6 +54,7 @@ def parseInput(inp: str):
         return "Diese Genotypen sind nicht kompatibel."
     except ValueError:
         return "Fehlerhafte Eingabe"
+
 
 if __name__ == "__main__":
     reload()
